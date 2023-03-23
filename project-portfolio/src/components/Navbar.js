@@ -1,23 +1,162 @@
-import React from 'react';
-import './navbar.css'
-import Nav from 'react-bootstrap/Nav';
+import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import styled from 'styled-components';
+import { MdClose, MdMenu } from 'react-icons/md';
 
-function FillExample() {
+const NavStyles = styled.nav`
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 1rem 0;
+  background: var(--dark-bg);
+  ul {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 90%;
+    text-align: center;
+    li {
+      display: inline-block;
+      border-radius: 8px;
+      transition: 0.3s ease background-color;
+      &:hover {
+        background-color: var(--deep-dark);
+      }
+    }
+    a {
+      display: inline-block;
+      font-family: 'RobotoMono Regular';
+      padding: 1rem 2rem;
+      font-size: 2rem;
+      color: var(--gray-1);
+      outline: none;
+    }
+    .active {
+      color: var(--white);
+    }
+  }
+  .mobile-menu-icon {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    width: 4rem;
+    cursor: pointer;
+    display: none;
+    outline: none;
+    * {
+      pointer-events: none;
+    }
+  }
+  .navItems .closeNavIcon {
+    display: none;
+  }
+  @media only screen and (max-width: 768px) {
+    padding: 0;
+    .hide-item {
+      transform: translateY(calc(-100% - var(--top)));
+    }
+    .mobile-menu-icon {
+      display: block;
+    }
+    .navItems {
+      --top: 1rem;
+      transition: 0.3s ease transform;
+      background-color: var(--deep-dark);
+      padding: 2rem;
+      width: 90%;
+      max-width: 300px;
+      border-radius: 12px;
+      position: absolute;
+      right: 1rem;
+      top: var(--top);
+      .closeNavIcon {
+        display: block;
+        width: 3rem;
+        margin: 0 0 0 auto;
+        cursor: pointer;
+        * {
+          pointer-events: none;
+        }
+      }
+      li {
+        display: block;
+        margin-bottom: 1rem;
+      }
+    }
+  }
+`;
+
+export default function Navbar() {
+  const [showNav, setShowNav] = useState(false);
   return (
-    <Nav className='navbar_home' fill variant="tabs" defaultActiveKey="/home">
-      <div className='main_container'>
-        <Nav.Item >
-          <Nav.Link className='navbar_links' href="/pages/Profile">Profile</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link className='navbar_links' href="/pages/Projets">Projets</Nav.Link>
-        </Nav.Item>
-        <Nav.Item>
-          <Nav.Link className='navbar_links' href="/pages/Contact">Contact</Nav.Link>
-        </Nav.Item>
+    <NavStyles>
+      <div
+        className="mobile-menu-icon"
+        onClick={() => setShowNav(!showNav)}
+        role="button"
+        onKeyDown={() => setShowNav(!showNav)}
+        tabIndex={0}
+      >
+        <MdMenu />
       </div>
-    </Nav>
+
+      <ul className={!showNav ? 'navItems hide-item' : 'navItems'}>
+        <div
+          className="closeNavIcon"
+          onClick={() => setShowNav(!showNav)}
+          role="button"
+          onKeyDown={() => setShowNav(!showNav)}
+          tabIndex={0}
+        >
+          <MdClose />
+        </div>
+        <li>
+          <NavLink
+            to="/"
+            exact
+            onClick={() => setShowNav(!showNav)}
+            role="button"
+            onKeyDown={() => setShowNav(!showNav)}
+            tabIndex={0}
+          >
+            Accueil
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/Profile"
+            onClick={() => setShowNav(!showNav)}
+            role="button"
+            onKeyDown={() => setShowNav(!showNav)}
+            tabIndex={0}
+          >
+            Profile
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/Projets"
+            onClick={() => setShowNav(!showNav)}
+            role="button"
+            onKeyDown={() => setShowNav(!showNav)}
+            tabIndex={0}
+          >
+            Projets
+          </NavLink>
+        </li>
+        <li>
+          <NavLink
+            to="/contact"
+            onClick={() => setShowNav(!showNav)}
+            role="button"
+            onKeyDown={() => setShowNav(!showNav)}
+            tabIndex={0}
+          >
+            Contact
+          </NavLink>
+        </li>
+      </ul>
+    </NavStyles>
   );
 }
-
-export default FillExample;
